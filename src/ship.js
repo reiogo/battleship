@@ -10,11 +10,11 @@ export default class Ship {
     this.hitNum += 1;
   }
   isSunk() {
-   if(this.length <= this.hitNum) {
-     this.sunkOrNot = true;
-     return true;
-   } else  {
-     return false;
-   }
+    if (this.length <= this.hitNum) {
+      this.sunkOrNot = true;
+      return true;
+    } else {
+      return false;
+    }
   }
 }

@@ -16,7 +16,7 @@ test("hit function works", () => {
 test("isSunk", () => {
   const ship = new Ship(1);
   expect(ship.isSunk()).toBeFalsy();
-  ship.hit()
+  ship.hit();
   expect(ship.isSunk()).toBeTruthy();
 });
 
@@ -32,22 +32,23 @@ test("Gameboards place ships", () => {
 
 test("ReceiveAttack", () => {
   const gameboard = new Gameboard();
-  gameboard.setShipPos('C', [[3,0],false]);
-  gameboard.setShipPos('B', [[2,1],false]);
-  gameboard.receiveAttack([1,1]);
-  expect(gameboard.missedAttacks.has([2,1])).toBeTruthy;
-  gameboard.receiveAttack([3,0]);
-  gameboard.receiveAttack([2,1]);
+  gameboard.setShipPos("C", [[3, 0], false]);
+  gameboard.setShipPos("B", [[2, 1], false]);
+  gameboard.receiveAttack([1, 1]);
+  expect(gameboard.missedAttacks).toEqual([[1, 1]]);
+  gameboard.receiveAttack([3, 0]);
+  gameboard.receiveAttack([2, 1]);
   expect(gameboard.carrier.hitNum).toBe(1);
   expect(gameboard.battleship.hitNum).toBe(1);
 });
 
 test("allSunkOrNot", () => {
   const gameboard = new Gameboard();
-  gameboard.setShipPos('P', [[4,3],false]);
+  gameboard.setShipPos("P", [[4, 3], false]);
   // expect(gameboard.matrix).toBe(10);
-  gameboard.receiveAttack([4,3]);
-  gameboard.receiveAttack([5,3]);
+  gameboard.receiveAttack([4, 3]);
+  gameboard.receiveAttack([5, 3]);
+  expect(gameboard.matrix).toBe(10);
   gameboard.carrier.hitNum = 5;
   gameboard.battleship.hitNum = 5;
   gameboard.destroyer.hitNum = 5;
@@ -56,3 +57,7 @@ test("allSunkOrNot", () => {
   expect(gameboard.allSunkOrNot()).toBeTruthy();
 });
 
+test("Ship collisions & out of bounds", () => {
+  const gameboard = new Gameboard();
+  expect(gameboard.setShipPos("C", [[4, 6], true])).toBeFalsy();
+});
