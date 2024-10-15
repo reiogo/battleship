@@ -28,6 +28,70 @@ const render = function refreshBothGameboards() {
 
 render();
 
+const finish = function endGameOnAllShipSunk() {
+  const boards = document.getElementById('gameboards');
+  const boardOne = document.getElementById('boardOne');
+  const boardTwo = document.getElementById('boardTwo');
+  boardOne.style.cssText = 'display: none;';
+  boardTwo.style.cssText = 'display: none;';
+  
+  const endscreen = document.createElement('div');
+  endscreen.id = 'endscreen';
+  endscreen.textContent = "Game Over";
+  endscreen.style.cssText = `
+    width: 400px;
+    height: 200px;
+    font-size: 30px;
+    background-color: lightblue;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+  `;
+  boards.appendChild(endscreen);
+
+  const resetbutton = document.createElement('button');
+  resetbutton.textContent = "new game?";
+  resetbutton.style.cssText = `
+    width: 100px;
+    height: 20px;
+    background-color: lightblue;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  `;
+  endscreen.appendChild(resetbutton);
+  resetbutton.addEventListener('click', () => {
+    const boards = document.getElementById('gameboards');
+    boards.removeChild(boards.lastChild);
+    boardOne.style.cssText = 
+    `
+      border: 1px solid black;
+      background-color: cornflowerblue;
+      width: 400px;
+      height: 400px;
+      display: grid;
+      grid-template: repeat(10, 1fr) / repeat(10, 1fr);
+      grid-gap: 1px;
+    `
+    boardTwo.style.cssText = 
+    `
+      border: 1px solid black;
+      background-color: cornflowerblue;
+      width: 400px;
+      height: 400px;
+      display: grid;
+      grid-template: repeat(10, 1fr) / repeat(10, 1fr);
+      grid-gap: 1px;
+    `
+    render();
+    
+  });
+
+  
+}
+
 // Event listeners
 const boardTwo = document.getElementById("boardTwo");
 
@@ -49,9 +113,9 @@ boardTwo.addEventListener("click", (event) => {
     counter++;
   }
   playerOne.game.receiveAttack([compPosY, compPosX]);
-  console.log(playerOne.game.matrix);
   render();
-  if (playerTwo.game.allSunkOrNot()) {
-    alert("game over");
+  if(playerOne.game.allSunkOrNot() || playerTwo.game.allSunkOrNot()){
+    finish();
   }
+    finish();
 });

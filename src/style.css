@@ -8,16 +8,7 @@ body {
   gap: 20px;
 }
 
-#boardOne {
-  border: 1px solid black;
-  background-color: cornflowerblue;
-  width: 400px;
-  height: 400px;
-  display: grid;
-  grid-template: repeat(10, 1fr) / repeat(10, 1fr);
-  grid-gap: 1px;
-}
-
+#boardOne,
 #boardTwo {
   border: 1px solid black;
   background-color: cornflowerblue;
@@ -27,3 +18,4 @@ body {
   grid-template: repeat(10, 1fr) / repeat(10, 1fr);
   grid-gap: 1px;
 }
+
