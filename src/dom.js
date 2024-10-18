@@ -19,6 +19,7 @@ export default class Dom {
           display: flex;
           align-items: center;
           justify-content: center;
+          font-size: min(1em, 3vw);
         `;
 
         if (value == 'X') {
@@ -30,6 +31,7 @@ export default class Dom {
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: min(1em, 3vw);
           `;
         } else if (value == 1) {
           box.textContent = 'X';
