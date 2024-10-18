@@ -1,6 +1,6 @@
 # Battleship
 
-Battleship game in Javascript
+Battleship the game in Javascript
 
 working demo: https://reiogo.github.io/battleship/
 
