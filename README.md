@@ -1,8 +1,15 @@
-# node_template
+# Battleship
 
-Node template
+Battleship game in Javascript
 
-Using 
-    -ESlint 
-    -Prettier
-    -Html Webpack
+working demo: https://reiogo.github.io/battleship/
+
+## Techstack
+    - Javascript
+    - Test Driven Development
+    - Jest
+    - Webpack
+    - HTML
+    - CSS
+
+(This game was made for educational purposes)
