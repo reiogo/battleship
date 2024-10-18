@@ -48,7 +48,6 @@ test("allSunkOrNot", () => {
   // expect(gameboard.matrix).toBe(10);
   gameboard.receiveAttack([4, 3]);
   gameboard.receiveAttack([5, 3]);
-  expect(gameboard.matrix).toBe(10);
   gameboard.carrier.hitNum = 5;
   gameboard.battleship.hitNum = 5;
   gameboard.destroyer.hitNum = 5;
@@ -59,5 +58,5 @@ test("allSunkOrNot", () => {
 
 test("Ship collisions & out of bounds", () => {
   const gameboard = new Gameboard();
-  expect(gameboard.setShipPos("C", [[4, 6], true])).toBeFalsy();
+  expect(gameboard.setShipPos("C", [[9, 9 ], true])).toBeFalsy();
 });

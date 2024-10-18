@@ -31,10 +31,10 @@ export default class Dom {
             align-items: center;
             justify-content: center;
           `;
-        } else if (value != 0 && !self.player.isComputer) {
-          box.textContent = value;
         } else if (value == 1) {
           box.textContent = 'X';
+        } else if (value != 0 && !self.player.isComputer) {
+          box.textContent = value;
         }
 
         box.value = `${[yIndex, xIndex]}`;

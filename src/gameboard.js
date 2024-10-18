@@ -6,6 +6,7 @@ export default class Gameboard {
     this._matrixbuild();
     this._initShips();
     this.missedAttacks = [];
+    this.yetToBeSet = new Set(["C", "B", "S", "D", "P"]);
   }
 
   _initShips() {
@@ -26,7 +27,6 @@ export default class Gameboard {
       P: this.patrolship,
     };
 
-    this.yetToBeSet = new Set(["C", "B", "S", "D", "P"]);
     let attempt = true;
     if (this.yetToBeSet.has(ship)) {
       attempt = this._placeship(ships[ship], position[0], position[1]);
@@ -56,9 +56,11 @@ export default class Gameboard {
 
   receiveAttack(coordinates) {
     const attack = this.matrix[coordinates[0]][coordinates[1]];
-      this.matrix[coordinates[0]][coordinates[1]] = "1";
-    if (attack == 0) {
+    if (attack == 1 || attack == 'X') {
+      return false;
+    } else if (attack == 0) {
       this.missedAttacks.push(coordinates);
+      this.matrix[coordinates[0]][coordinates[1]] = "1";
     } else {
       this.matrix[coordinates[0]][coordinates[1]] = "X";
       if (attack == "C") {
@@ -73,6 +75,7 @@ export default class Gameboard {
         this.patrolship.hit();
       }
     }
+    return true;
   }
 
   _placeship(ship, startpoint, horizontal) {
@@ -82,7 +85,7 @@ export default class Gameboard {
       for (let i = 0; i < ship.length; i++) {
         //The x and y positions collide with other ships
         // or they are out of bounds (in a matrix of 10).
-        if (this.matrix[yPos][xPos + i] != 0 || xPos + i > 9) {
+        if (xPos + i > 9 || this.matrix[yPos][xPos + i] != 0) {
           return false;
         }
       }
@@ -91,7 +94,7 @@ export default class Gameboard {
       }
     } else {
       for (let i = 0; i < ship.length; i++) {
-        if (this.matrix[yPos + i][xPos] != 0 || yPos + i > 9) {
+        if (yPos + i > 9 || this.matrix[yPos + i][xPos] != 0) {
           return false;
         }
       }
