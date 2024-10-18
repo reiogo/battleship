@@ -2,25 +2,48 @@ import Player from "./player";
 import Dom from "./dom";
 import "./style.css";
 
-const playerOne = new Player("playerOne", false);
-
-const playerTwo = new Player("computer", true);
+let playerOne = new Player("playerOne", false);
+let playerTwo = new Player("computer", true);
 
 const randomPlace = function randomlyPlacesShips(player) {
   while (player.game.yetToBeSet.size > 0) {
     const set = player.game.yetToBeSet.values();
     for (const ship of set) {
       const coordinates = [Math.floor(Math.random() * 10), Math.floor(Math.random() * 10)];
-      const orientation = true? Math.random() > 0.5: false;
+      const orientation =  Math.random() > 0.5? true: false;
       player.game.setShipPos(ship, [coordinates, orientation])
     }
   }
 }
+const placeButton = document.getElementById('place-button');
+placeButton.addEventListener('click', () => {
+  playerOne = new Player("playerOne", false);
+  const startButton = document.getElementById('start-button');
+  randomPlace(playerOne);
 
-randomPlace(playerOne)
-randomPlace(playerTwo)
+  const renderOne = new Dom(playerOne, "boardOne");
+  renderOne.renderBoard();
+
+  startButton.style.cssText = `
+    display: block;
+  `
+});
+
+const startButton = document.getElementById('start-button');
+startButton.addEventListener('click', () => {
+  playerTwo = new Player("computer", true);
+  const startDiv = document.getElementById('start-menu');
+
+  startDiv.style.cssText = `
+    display: none;
+  `
+  randomPlace(playerTwo);
+  const renderTwo = new Dom(playerTwo, "boardTwo");
+  renderTwo.renderBoard();
+  
+});
+
 console.log(playerTwo.game.matrix);
-
 //Render things
 
 const render = function refreshBothGameboards() {
@@ -31,7 +54,6 @@ const render = function refreshBothGameboards() {
   renderTwo.renderBoard();
 };
 
-render();
 
 const finish = function endGameOnAllShipSunk() {
   if (playerOne.game.allSunkOrNot()) {
@@ -40,7 +62,24 @@ const finish = function endGameOnAllShipSunk() {
     alert('You won!');
   }
   if(confirm('New Game?')) {
-    //new game
+    const computer = document.getElementById('boardTwo');
+    while (computer.firstChild) {
+      computer.removeChild(computer.lastChild);
+    }
+    playerOne = new Player("playerOne", false);
+    randomPlace(playerOne);
+
+    const renderOne = new Dom(playerOne, "boardOne");
+    renderOne.renderBoard();
+
+    const startDiv = document.getElementById('start-menu');
+
+    startDiv.style.cssText = `
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    `
   }
 }
 
