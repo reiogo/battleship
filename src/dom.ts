@@ -1,17 +1,19 @@
 export default class Dom {
+    player;
+    board;
   constructor(player, board) {
-    self.player = player;
-    self.board = board;
+    this.player = player;
+    this.board = board;
   }
 
   renderBoard() {
-    const playerDiv = document.getElementById(`${self.board}`);
+    const playerDiv = document.getElementById(`${this.board}`);
     while (playerDiv.firstChild) {
       playerDiv.removeChild(playerDiv.lastChild);
     }
     // For each value in each array of the matrix
     // make a box and fill it with a value
-    self.player.game.matrix.forEach((array, yIndex) => {
+    this.player.game.matrix.forEach((array, yIndex) => {
       array.forEach((value, xIndex) => {
         const box = document.createElement("div");
         box.style.cssText = `
@@ -35,11 +37,11 @@ export default class Dom {
           `;
         } else if (value == 1) {
           box.textContent = 'X';
-        } else if (value != 0 && !self.player.isComputer) {
+        } else if (value != 0 && !this.player.isComputer) {
           box.textContent = value;
         }
 
-        box.value = `${[yIndex, xIndex]}`;
+        box.setAttribute('data-value', `${yIndex}, ${xIndex}`);
         playerDiv.appendChild(box);
       });
     });

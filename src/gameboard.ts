@@ -1,6 +1,16 @@
 import Ship from "./ship";
 
 export default class Gameboard {
+    matrix;
+    missedAttacks;
+    yetToBeSet;
+
+    carrier;
+    battleship;
+    submarine;
+    destroyer;
+    patrolship;
+
   constructor() {
     this.matrix = [];
     this._matrixbuild();

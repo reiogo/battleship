@@ -87,7 +87,9 @@ const finish = function endGameOnAllShipSunk() {
 const boardTwo = document.getElementById("boardTwo");
 
 boardTwo.addEventListener("click", (event) => {
-  const position = event.target.value.split(",");
+    const target = event.target as HTMLElement;
+    const val = target.getAttribute('data-value');
+  const position = val.split(",");    
   const attackSuccess = playerTwo.game.receiveAttack(position);
   if (!attackSuccess) {
     return
