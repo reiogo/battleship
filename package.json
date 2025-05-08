@@ -21,14 +21,18 @@
     "babel-jest": "^29.7.0",
     "check-dependencies": "^2.0.0",
     "css-loader": "^7.1.2",
-    "eslint": "^9.11.1",
+    "eslint": "^9.26.0",
     "globals": "^15.9.0",
-    "html-webpack-plugin": "^5.6.0",
+    "html-webpack-plugin": "^5.6.3",
     "jest": "^29.7.0",
-    "prettier": "^3.3.3",
+    "prettier": "^3.5.3",
     "style-loader": "^4.0.0",
-    "webpack": "^5.95.0",
+    "webpack": "^5.99.8",
     "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^5.1.0"
+    "webpack-dev-server": "^5.2.1"
+  },
+  "dependencies": {
+    "source-map-loader": "^5.0.0",
+    "ts-loader": "^9.5.2"
   }
 }
