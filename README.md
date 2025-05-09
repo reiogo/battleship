@@ -5,7 +5,7 @@ Battleship the game in Javascript
 working demo: https://reiogo.github.io/battleship/
 
 ## Techstack
-    - Javascript
+    - Typescript
     - Test Driven Development
     - Jest
     - Webpack
