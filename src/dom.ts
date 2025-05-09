@@ -1,4 +1,10 @@
-export default class Dom {
+export interface DomInterface{
+    player;
+    board;
+    renderBoard():void;
+
+};
+export class Dom {
     player;
     board;
   constructor(player, board) {
@@ -6,7 +12,7 @@ export default class Dom {
     this.board = board;
   }
 
-  renderBoard() {
+  renderBoard():void {
     const playerDiv = document.getElementById(`${this.board}`);
     while (playerDiv.firstChild) {
       playerDiv.removeChild(playerDiv.lastChild);

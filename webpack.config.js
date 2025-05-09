@@ -14,7 +14,7 @@ module.exports = {
     watchFiles: ["./src/template.html"],
   },
   resolve:{
-        extensions: ["", ".webpack.js", ".web.js", ".ts", ".tsx", ".js"],
+        extensions: [".ts", ".tsx", ".js"],
   },
   module: {
     rules: [
