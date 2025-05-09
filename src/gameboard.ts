@@ -1,6 +1,42 @@
-import Ship from "./ship";
+import {ShipInterface, Ship} from "./ship";
 
-export default class Gameboard {
+type position = [[number, number], boolean];
+
+export interface GameboardInterface {
+    matrix;
+    missedAttacks;
+    yetToBeSet;
+
+    carrier;
+    battleship;
+    submarine;
+    destroyer;
+    patrolship;
+
+    _initShips():void;
+    setShipPos(ship: ShipInterface, position: position): boolean;
+    getYetToBeSet():string[];
+    allSunkOrNot():boolean;
+    receiveAttack(coordinates: [number, number]): boolean;
+    _placeship(
+        ship: ShipInterface,
+        startpoint: [number, number],
+        horizontal: boolean
+    ): boolean;
+    _matrixbuild():void;
+
+};
+export class Gameboard implements GameboardInterface{
+    matrix;
+    missedAttacks;
+    yetToBeSet;
+
+    carrier;
+    battleship;
+    submarine;
+    destroyer;
+    patrolship;
+
   constructor() {
     this.matrix = [];
     this._matrixbuild();
@@ -9,16 +45,16 @@ export default class Gameboard {
     this.yetToBeSet = new Set(["C", "B", "S", "D", "P"]);
   }
 
-  _initShips() {
-    this.carrier = new Ship(5, "C");
-    this.battleship = new Ship(4, "B");
-    this.submarine = new Ship(3, "S");
-    this.destroyer = new Ship(3, "D");
-    this.patrolship = new Ship(2, "P");
+  _initShips(): void{
+    this.carrier = new Ship( "C");
+    this.battleship = new Ship("B");
+    this.submarine = new Ship("S");
+    this.destroyer = new Ship("D");
+    this.patrolship = new Ship("P");
   }
 
   // position = [[start y, start x], (true is horizontal, false is vertical)]
-  setShipPos(ship, position) {
+  setShipPos(ship: ShipInterface, position: position): boolean{
     const ships = {
       C: this.carrier,
       B: this.battleship,
@@ -27,17 +63,26 @@ export default class Gameboard {
       P: this.patrolship,
     };
 
+      // flag
     let attempt = true;
-    if (this.yetToBeSet.has(ship)) {
-      attempt = this._placeship(ships[ship], position[0], position[1]);
+
+      // if the set has the ship
+    if (this.yetToBeSet.has(ship.id)) {
+        // use helper method to place the ship and get the boolean response
+      attempt = this._placeship(ships[ship.id], position[0], position[1]);
       if (attempt == true) {
-        this.yetToBeSet.delete(ship);
+          // is this working?
+        this.yetToBeSet.delete(ship.id);
       }
     }
     return attempt;
   }
 
-  allSunkOrNot() {
+    getYetToBeSet():string[]{
+        return Array.from(this.yetToBeSet);
+    }
+
+  allSunkOrNot(): boolean {
     const shipList = [
       this.carrier,
       this.battleship,
@@ -54,14 +99,19 @@ export default class Gameboard {
     return flag;
   }
 
-  receiveAttack(coordinates) {
+  receiveAttack(coordinates: [number, number]): boolean {
+      // check what is happening at these coordinates
     const attack = this.matrix[coordinates[0]][coordinates[1]];
+
     if (attack == 1 || attack == 'X') {
+      // if 1 or X then return false?
       return false;
     } else if (attack == 0) {
+        // if 0 then log missed attack and change to 1
       this.missedAttacks.push(coordinates);
       this.matrix[coordinates[0]][coordinates[1]] = "1";
     } else {
+        // otherwise make it a hit, and hit the right ship
       this.matrix[coordinates[0]][coordinates[1]] = "X";
       if (attack == "C") {
         this.carrier.hit();
@@ -78,7 +128,11 @@ export default class Gameboard {
     return true;
   }
 
-  _placeship(ship, startpoint, horizontal) {
+  _placeship(
+      ship: ShipInterface,
+      startpoint: [number, number],
+      horizontal: boolean
+  ): boolean {
     const yPos = startpoint[0];
     const xPos = startpoint[1];
     if (horizontal == true) {
@@ -105,7 +159,7 @@ export default class Gameboard {
     return true;
   }
 
-  _matrixbuild() {
+  _matrixbuild():void {
     // 10 by 10 grid
     for (let m = 0; m < 10; m++) {
       this.matrix.push([]);

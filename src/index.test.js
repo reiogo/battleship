@@ -7,6 +7,7 @@ test("Classes exists", () => {
   expect(Player).toBeDefined();
 });
 
+
 test("hit function works", () => {
   const ship = new Ship(10);
   ship.hit();
@@ -20,15 +21,15 @@ test("isSunk", () => {
   expect(ship.isSunk()).toBeTruthy();
 });
 
-test("Gameboards place ships", () => {
-  const gameboard = new Gameboard();
-  // gameboard.setShipPos('C', [[3,0],false]);
-  // gameboard.setShipPos('B', [[2,1],false]);
-  // gameboard.setShipPos('S', [[0,1],true]);
-  // gameboard.setShipPos('D', [[2,2],true]);
-  // gameboard.setShipPos('P', [[4,3],false]);
-  // expect(gameboard.matrix).toBe(10);
-});
+// test("Gameboards place ships", () => {
+//   const gameboard = new Gameboard();
+//   gameboard.setShipPos('C', [[3,0],false]);
+//   gameboard.setShipPos('B', [[2,1],false]);
+//   gameboard.setShipPos('S', [[0,1],true]);
+//   gameboard.setShipPos('D', [[2,2],true]);
+//   gameboard.setShipPos('P', [[4,3],false]);
+//   expect(gameboard.matrix).toBe(10);
+// });
 
 test("ReceiveAttack", () => {
   const gameboard = new Gameboard();

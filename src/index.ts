@@ -1,17 +1,26 @@
-import Player from "./player";
-import Dom from "./dom";
+import {Player, PlayerInterface} from "./player";
+import {Dom, DomInterface} from "./dom";
+import {ShipInterface, Ship} from "./ship";
 import "./style.css";
 
 let playerOne = new Player("playerOne", false);
 let playerTwo = new Player("computer", true);
 
-const randomPlace = function randomlyPlacesShips(player) {
+const randomPlace = function randomlyPlacesShips(player: PlayerInterface) {
   while (player.game.yetToBeSet.size > 0) {
-    const set = player.game.yetToBeSet.values();
-    for (const ship of set) {
-      const coordinates = [Math.floor(Math.random() * 10), Math.floor(Math.random() * 10)];
+    // get all the ships that haven't been set yet
+    let setOfShips = player.game.getYetToBeSet();
+    
+      // loop through the ships
+    for (let ship of setOfShips) {
+        //get random coordinates
+      const coordinates: [number, number] = [Math.floor(Math.random() * 10), Math.floor(Math.random() * 10)];
+        // get random orientation
       const orientation =  Math.random() > 0.5? true: false;
-      player.game.setShipPos(ship, [coordinates, orientation])
+        // set ships using Gameboard method
+      
+       let newShip = new Ship(ship);
+      let output = player.game.setShipPos(newShip, [coordinates, orientation])
     }
   }
 }
@@ -43,10 +52,9 @@ startButton.addEventListener('click', () => {
   
 });
 
-console.log(playerTwo.game.matrix);
 //Render things
 
-const render = function refreshBothGameboards() {
+const render = function refreshBothGameboards(): void {
   const renderOne = new Dom(playerOne, "boardOne");
   renderOne.renderBoard();
 
@@ -55,7 +63,7 @@ const render = function refreshBothGameboards() {
 };
 
 
-const finish = function endGameOnAllShipSunk() {
+const finish = function endGameOnAllShipSunk(): void {
   if (playerOne.game.allSunkOrNot()) {
     alert('Gameover!');
   } else {
@@ -86,8 +94,16 @@ const finish = function endGameOnAllShipSunk() {
 // Event listeners
 const boardTwo = document.getElementById("boardTwo");
 
-boardTwo.addEventListener("click", (event) => {
-  const position = event.target.value.split(",");
+boardTwo.addEventListener("click", (event: MouseEvent) => {
+    const target = event.target as HTMLElement;
+    if (target.getAttribute('data-value') == null){
+        return;
+    }
+    const values = target.getAttribute('data-value')
+                            .split(",")
+                            .map((value)=>Number(value));
+    const position: [number, number] = [values[0], values[1]];
+
   const attackSuccess = playerTwo.game.receiveAttack(position);
   if (!attackSuccess) {
     return
@@ -107,8 +123,6 @@ boardTwo.addEventListener("click", (event) => {
     counter++;
   }
   playerOne.game.receiveAttack([compPosY, compPosX]);
-  //diagnosis
-  console.log(playerTwo.game.matrix);
   render();
   if(playerOne.game.allSunkOrNot() || playerTwo.game.allSunkOrNot()){
     finish();
